@@ -1,0 +1,79 @@
+<div class="wrapper">
+    <h2 class="header-text">Item Filters (Path of Exile)</h2>
+    <!-- filter pane to filter items with name, typeLine, Leagues -->
+    <div class="filter-pane">
+        <div class="filter-info">
+            <!-- countdown timer for next aggregated stash -->
+            <div class="timer-pane" [hidden]="viewAllAggregatedStashesFlag">Items Stash refreshes in: <span
+                    class="timer">{{displayCounter}}</span> seconds
+            </div>
+            <div>
+                <!-- toggle btn for all aggreated stashes and single refreshing aggregated stash -->
+                <button mat-raised-button
+                    (click)="viewAllAggregatedStashesFlag? getSingleRefreshingAggreatedStash() :getAllAggregatedStashes()">
+                    {{viewAllAggregatedStashesFlag?
+                    'View Refresh Single Aggregated Stash with ' :'View All Aggregated Stashes' }}
+                </button>
+            </div>
+        </div>
+        <mat-grid-list cols="3" rowHeight="6:1">
+            <mat-grid-tile>
+                <mat-form-field class="input-field" appearance="fill">
+                    <mat-label>Name Filter</mat-label>
+                    <input matInput type="text" [(ngModel)]="itemnameFilter"
+                        (ngModelChange)="filterItems(selectedLeagues.value,itemnameFilter,typeLineFilter)">
+                    <button *ngIf="itemnameFilter" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="itemnameFilter='';filterItems(selectedLeagues.value,itemnameFilter,typeLineFilter)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field class="input-field" appearance="fill">
+                    <mat-label>Type Line Filter</mat-label>
+                    <input matInput type="text" [(ngModel)]="typeLineFilter"
+                        (ngModelChange)="filterItems(selectedLeagues.value,itemnameFilter,typeLineFilter)">
+                    <button *ngIf="typeLineFilter" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="typeLineFilter='';filterItems(selectedLeagues.value,itemnameFilter,typeLineFilter)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <!-- dropdown for leagues -->
+                <mat-form-field appearance="fill" class="leagues-dd">
+                    <mat-label>Leagues Filter</mat-label>
+                    <mat-select [formControl]="selectedLeagues" multiple
+                        (selectionChange)="filterItems(selectedLeagues.value,itemnameFilter,typeLineFilter)">
+                        <mat-option *ngFor="let league of leagues" [value]="league">{{league}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+
+    <!-- table for hosting items -->
+    <table mat-table *ngIf="dataSource && dataSource.length; else noData" [dataSource]="dataSource"
+        class="mat-elevation-z8 items-table">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Item Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name ?element.name : '-'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="typeLine">
+            <th mat-header-cell *matHeaderCellDef> Type Line </th>
+            <td mat-cell *matCellDef="let element"> {{element.typeLine}} </td>
+        </ng-container>
+        <ng-container matColumnDef="league">
+            <th mat-header-cell *matHeaderCellDef> League </th>
+            <td mat-cell *matCellDef="let element"> {{element.league}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- No items/Empty data message  -->
+    <ng-template #noData>
+        <div class="no-data">There are no Items in this League(s)</div>
+    </ng-template>
+</div>

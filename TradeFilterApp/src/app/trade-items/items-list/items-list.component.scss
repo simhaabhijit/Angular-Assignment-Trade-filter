@@ -1,0 +1,52 @@
+.wrapper {
+  width: 95%;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.header-text {
+  text-align: center;
+}
+
+.filter-pane {
+  width: 100%;
+}
+
+.filter-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0 0 1rem 0;
+
+  .timer-pane {
+    margin: 0 2rem 0 0;
+    border: solid 1px #000;
+    border-radius: 5px;
+    padding: 0.25rem;
+
+    .timer {
+      font-weight: bold;
+    }
+  }
+}
+
+.input-field {
+  width: 95%;
+}
+
+.leagues-dd {
+  width: 95%;
+}
+
+.items-table {
+  width: 100%;
+}
+
+.no-data {
+  width: 100%;
+}
+
+.example-form-field {
+  width: 200px;
+}
